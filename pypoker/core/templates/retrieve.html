@@ -1,0 +1,58 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block head %}
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"> -->
+<!-- revisit styles holistically -->
+<script type="text/javascript" src="{% static 'js/retrieve.js' %}"></script>
+{% endblock head %}
+
+{% block main %}
+<form id="bcp_signin">
+    <h1 class="h3 mb-3 font-weight-normal">Sign in to Blockchain Poker</h1>
+    <input type="text" name="username" class="form-control" placeholder="User name" required autofocus>
+    <input type="password" name="password" class="form-control" placeholder="Password" required>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Import Recent Hands</button>
+</form>
+
+<div class="modal fade" id="loader" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="loader"></div>
+                <div class="modal-text">
+                    <p>Retrieving recent hands...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="modal fade" id="auth_modal" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4 class="modal-text">Log in to Blockchain Poker</h4>
+                <form method="post" id="auth_form">
+                    <input type="text" name="username"/><br/>
+                    <input type="password" name="password"/><br/>
+                    <input type="submit" name="submit" value="Log in"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="modal fade" id="result_modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-text" id="result_title"></h4>
+            </div>
+            <div class="modal-body text-center">
+                <p class="modal-text" id="result_text"></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main %}

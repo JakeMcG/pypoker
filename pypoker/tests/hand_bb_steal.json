@@ -1,0 +1,104 @@
+{
+    "rounds": [
+        {
+            "community": [],
+            "pot": 0,
+            "round": "PREFLOP",
+            "time": "2022-04-28T23:41:59.525Z"
+        }
+    ],
+    "seats": [
+        {
+            "actions": [
+                {
+                    "amount": 10,
+                    "type": "POST_BLIND",
+                    "time": "2022-04-28T23:41:59.314Z"
+                },
+                {
+                    "amount": null,
+                    "type": "FOLD",
+                    "time": "2022-04-28T23:42:02.342Z"
+                }
+            ],
+            "cards": [
+                {
+                    "holeCard": true,
+                    "index": 1,
+                    "isRevealed": null,
+                    "rank": null,
+                    "suit": null
+                },
+                {
+                    "holeCard": true,
+                    "index": 2,
+                    "isRevealed": null,
+                    "rank": null,
+                    "suit": null
+                }
+            ],
+            "account": 1757033,
+            "index": 4,
+            "isBigBlind": false,
+            "isDealer": true,
+            "isFolded": true,
+            "isSmallBlind": true,
+            "mucked": true,
+            "name": "Tony G",
+            "placing": 2,
+            "potContributions": 10,
+            "rakeTaken": 0,
+            "stack": 1821,
+            "winnings": 0
+        },
+        {
+            "actions": [
+                {
+                    "amount": 20,
+                    "type": "POST_BLIND",
+                    "time": "2022-04-28T23:41:59.314Z"
+                }
+            ],
+            "cards": [
+                {
+                    "holeCard": true,
+                    "index": 1,
+                    "isRevealed": null,
+                    "rank": null,
+                    "suit": null
+                },
+                {
+                    "holeCard": true,
+                    "index": 2,
+                    "isRevealed": null,
+                    "rank": null,
+                    "suit": null
+                }
+            ],
+            "account": 1743094,
+            "index": 8,
+            "isBigBlind": true,
+            "isDealer": false,
+            "isFolded": false,
+            "isSmallBlind": false,
+            "mucked": true,
+            "name": "Phil H",
+            "placing": 1,
+            "potContributions": 20,
+            "rakeTaken": 0,
+            "stack": 2167,
+            "winnings": 30
+        }
+    ],
+    "baseUnit": 1,
+    "blinds": {
+        "big": 20,
+        "small": 10
+    },
+    "currency": "BCH",
+    "key": "yyy",
+    "name": "Table Name",
+    "numSeats": 9,
+    "rakeTaken": 0,
+    "table": 665719
+}

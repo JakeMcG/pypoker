@@ -1,0 +1,20 @@
+[
+    {
+        "key": "xxx",
+        "timestamp": "2022-04-08T02:58:00.484Z",
+        "tableName": "Table Name",
+        "currency": "BCH"
+    },
+    {
+        "key": "xxx",
+        "timestamp": "2022-04-08T02:56:42.455Z",
+        "tableName": "Table Name",
+        "currency": "BCH"
+    },
+    {
+        "key": "xxx",
+        "timestamp": "2022-04-08T02:55:42.040Z",
+        "tableName": "Table Name",
+        "currency": "BCH"
+    }
+]

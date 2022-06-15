@@ -1,0 +1,24 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block head %}
+<script type="text/javascript" src="{% static 'vendor/js/jquery-ui.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'vendor/css/pivot.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/preflop.css' %}">
+<script type="text/javascript" src="{% static 'vendor/js/pivot.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/preflop.js' %}"></script>
+{% endblock head %}
+
+{% block main %}
+<h1>Pre-Flop Statistics</h1>
+
+<div id="hand-filter">
+    {% include "hand_filter.html" %}
+</div>
+
+<div id="pivot" style="display: none"></div>
+<div id="loader" style="padding-top: 10px">
+    <div class="loader"></div>
+</div>
+
+{% endblock main %}
