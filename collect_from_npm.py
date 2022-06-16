@@ -28,7 +28,7 @@ for (package, test, dest) in DEPENDENCIES:
     dest = os.path.join(STATIC_DIR, dest)
     if not os.path.isdir(dest):
         print(f"{dest} doesn't exist: creating it.")
-        os.mkdir(dest)
+        os.makedirs(dest)
 
     for file in results:
         shutil.copy(file, dest)
