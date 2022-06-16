@@ -52,6 +52,7 @@ function updatePivot(rawData) {
 
 function fetchData() {
     $("#pivot").hide();
+    $("#error").hide();
     $("#loader").show();
     const data = $('#hand-filter-form').serialize();
     $.ajax({
@@ -63,7 +64,11 @@ function fetchData() {
             $("#pivot").show();
             updatePivot(response);
         },
-        error: function(xhr, error) {}
+        error: function(xhr, error) {
+            $("#loader").hide();
+            $("#error").show();
+            $("#error-text").text("Something went wrong.");
+        }
     })
 }
 
