@@ -1,77 +1,434 @@
-{"rounds": [
-    {"community": [], "pot": 0, "round": "PREFLOP", "time": "2022-04-02T02:29:06.118Z"}, 
-    {"community": [
-        {"index": 0, "rank": "7", "suit": "CLUBS", "time": "2022-04-02T02:29:28.621Z"}, 
-        {"index": 1, "rank": "4", "suit": "SPADES", "time": "2022-04-02T02:29:28.621Z"}, 
-        {"index": 2, "rank": "K", "suit": "DIAMONDS", "time": "2022-04-02T02:29:28.621Z"}],  
-        "pot": 4241, 
-        "round": "FLOP", 
-        "time": "2022-04-02T02:29:28.614Z"}, 
-    {"community": [{"index": 3, "rank": "4", "suit": "HEARTS", "time": "2022-04-02T02:29:44.733Z"}], "pot": 10064, "round": "TURN", "time": "2022-04-02T02:29:44.726Z"}, 
-    {"community": [{"index": 4, "rank": "9", "suit": "SPADES", "time": "2022-04-02T02:29:47.641Z"}], "pot": 10064, "round": "RIVER", "time": "2022-04-02T02:29:47.621Z"}], 
-"seats": [
 {
-    "actions": [
-        {"amount": 400, "type": "POST_BLIND", "time": "2022-04-02T02:29:05.741Z"}, 
-        {"amount": 641, "type": "CALL", "time": "2022-04-02T02:29:25.965Z"}], 
-    "cards": [
-        {"bestCard": None, "holeCard": True, "index": 1, "isRevealed": True, "rank": "2", "suit": "DIAMONDS"}, 
-        {"bestCard": True, "holeCard": True, "index": 2, "isRevealed": True, "rank": "A", "suit": "DIAMONDS"}, 
-        {"bestCard": True, "holeCard": False, "index": 2, "isRevealed": True, "rank": "4", "suit": "HEARTS"}, 
-        {"bestCard": True, "holeCard": False, "index": 3, "isRevealed": True, "rank": "4", "suit": "SPADES"}, 
-        {"bestCard": True, "holeCard": False, "index": 5, "isRevealed": True, "rank": "K", "suit": "DIAMONDS"}, 
-        {"bestCard": True, "holeCard": False, "index": 6, "isRevealed": True, "rank": "9", "suit": "SPADES"}], 
-    "account": 1743094, "handRank": "PAIR", "handValue": 978729, "index": 0, "isBigBlind": True, 
-    "isDealer": False, "isFolded": False, "isSmallBlind": False, "mucked": False, "name": "StrictlyMonotonic", 
-    "placing": 3, "potContributions": 641, "rakeTaken": 0, "stack": 0, "winnings": 0}, 
-{
-    "actions": [{"amount": None, "type": "FOLD", "time": "2022-04-02T02:29:06.227Z"}], 
-    "cards": [{"holeCard": True, "index": 1, "isRevealed": None, "rank": None, "suit": None}, 
-        {"holeCard": True, "index": 2, "isRevealed": None, "rank": None, "suit": None}], 
-    "account": 1694303, "index": 1, "isBigBlind": False, "isDealer": False, "isFolded": True, 
-    "isSmallBlind": False, "mucked": True, "name": "LoganBtchtree", "placing": 4, "potContributions": 0, 
-    "rakeTaken": 0, "stack": 1853, "winnings": 0}, 
-{
-    "actions": [{"amount": 800, "type": "RAISE", "time": "2022-04-02T02:29:08.504Z"}, 
-    {"amount": 1200, "type": "CALL", "time": "2022-04-02T02:29:28.409Z"}, 
-    {"amount": None, "type": "CHECK", "time": "2022-04-02T02:29:32.405Z"}, 
-    {"amount": None, "type": "FOLD", "time": "2022-04-02T02:29:43.368Z"}], 
-    "cards": [{"holeCard": True, "index": 1, "isRevealed": None, "rank": None, "suit": None}, 
-        {"holeCard": True, "index": 2, "isRevealed": None, "rank": None, "suit": None}], 
-    "account": 951798, "index": 2, "isBigBlind": False, "isDealer": False, "isFolded": True, 
-    "isSmallBlind": False, "mucked": True, "name": "Scare City", "placing": 4, "potContributions": 1200, 
-    "rakeTaken": 0, "stack": 8575, "winnings": 0}, 
-{
-    "actions": [{"amount": 1200, "type": "RAISE", "time": "2022-04-02T02:29:14.647Z"}, 
-    {"amount": 1941, "type": "RAISE", "time": "2022-04-02T02:29:37.938Z"}], 
-    "cards": [{"bestCard": True, "holeCard": True, "index": 1, "isRevealed": True, "rank": "Q", "suit": "HEARTS"}, 
-        {"bestCard": True, "holeCard": True, "index": 2, "isRevealed": True, "rank": "Q", "suit": "CLUBS"}, 
-        {"bestCard": True, "holeCard": False, "index": 4, "isRevealed": True, "rank": "4", "suit": "HEARTS"}, 
-        {"bestCard": True, "holeCard": False, "index": 5, "isRevealed": True, "rank": "4", "suit": "SPADES"}, 
-        {"bestCard": True, "holeCard": False, "index": 6, "isRevealed": True, "rank": "K", "suit": "DIAMONDS"}], 
-    "account": 1762514, "handRank": "TWO_PAIR", "handValue": 2167723, "index": 4, "isBigBlind": False, 
-    "isDealer": False, "isFolded": False, "isSmallBlind": False, "mucked": False, "name": "Bruxo0", "placing": 2, "potContributions": 3141, 
-    "rakeTaken": 0, "stack": 0, "winnings": 0}, 
-{
-    "actions": [{"amount": None, "type": "FOLD", "time": "2022-04-02T02:29:14.968Z"}], 
-    "cards": [{"holeCard": True, "index": 1, "isRevealed": None, "rank": None, "suit": None}, 
-        {"holeCard": True, "index": 2, "isRevealed": None, "rank": None, "suit": None}], 
-    "account": 788925, "index": 5, "isBigBlind": False, "isDealer": True, "isFolded": True, "isSmallBlind": False, 
-    "mucked": True, "name": "Nightbreaker", "placing": 4, "potContributions": 0, "rakeTaken": 0, "stack": 1520, "winnings": 0}, 
-{
-    "actions": [{"amount": 200, "type": "POST_BLIND", "time": "2022-04-02T02:29:05.741Z"}, 
-        {"amount": 1200, "type": "CALL", "time": "2022-04-02T02:29:25.586Z"}, 
-        {"amount": None, "type": "CHECK", "time": "2022-04-02T02:29:31.788Z"}, 
-        {"amount": 3882, "type": "RAISE", "time": "2022-04-02T02:29:42.684Z"}], 
-        "cards": [{"bestCard": True, "holeCard": True, "index": 1, "isRevealed": True, "rank": "7", "suit": "HEARTS"}, 
-            {"bestCard": True, "holeCard": True, "index": 2, "isRevealed": True, "rank": "7", "suit": "SPADES"}, 
-            {"bestCard": True, "holeCard": False, "index": 4, "isRevealed": True, "rank": "7", "suit": "CLUBS"}, 
-            {"bestCard": True, "holeCard": False, "index": 5, "isRevealed": True, "rank": "4", "suit": "HEARTS"}, 
-            {"bestCard": True, "holeCard": False, "index": 6, "isRevealed": True, "rank": "4", "suit": "SPADES"}], 
-        "account": 1763894, "handRank": "FULL_HOUSE", "handValue": 4935889, "index": 8, "isBigBlind": False, 
-        "isDealer": False, "isFolded": False, "isSmallBlind": True, "mucked": False, "name": "kljdfasdkasfljalsd", 
-        "placing": 1, "potContributions": 5082, "rakeTaken": 0, "stack": 8570, "winnings": 10064}], 
-
-"baseUnit": 1, "blinds": {"big": 400, "small": 200}, 
-"currency": "BCH", "key": "7cc6d680c0dd7fb3d7e494ace0979242", 
-"name": "Hued Fraudsmen183", "numSeats": 9, "rakeTaken": 0, "table": 647071}
+    "rounds": [
+        {
+            "community": [],
+            "pot": 0,
+            "round": "PREFLOP",
+            "time": "2022-04-02T02:29:06.118Z"
+        },
+        {
+            "community": [
+                {
+                    "index": 0,
+                    "rank": "7",
+                    "suit": "CLUBS",
+                    "time": "2022-04-02T02:29:28.621Z"
+                },
+                {
+                    "index": 1,
+                    "rank": "4",
+                    "suit": "SPADES",
+                    "time": "2022-04-02T02:29:28.621Z"
+                },
+                {
+                    "index": 2,
+                    "rank": "K",
+                    "suit": "DIAMONDS",
+                    "time": "2022-04-02T02:29:28.621Z"
+                }
+            ],
+            "pot": 4241,
+            "round": "FLOP",
+            "time": "2022-04-02T02:29:28.614Z"
+        },
+        {
+            "community": [
+                {
+                    "index": 3,
+                    "rank": "4",
+                    "suit": "HEARTS",
+                    "time": "2022-04-02T02:29:44.733Z"
+                }
+            ],
+            "pot": 10064,
+            "round": "TURN",
+            "time": "2022-04-02T02:29:44.726Z"
+        },
+        {
+            "community": [
+                {
+                    "index": 4,
+                    "rank": "9",
+                    "suit": "SPADES",
+                    "time": "2022-04-02T02:29:47.641Z"
+                }
+            ],
+            "pot": 10064,
+            "round": "RIVER",
+            "time": "2022-04-02T02:29:47.621Z"
+        }
+    ],
+    "seats": [
+        {
+            "actions": [
+                {
+                    "amount": 400,
+                    "type": "POST_BLIND",
+                    "time": "2022-04-02T02:29:05.741Z"
+                },
+                {
+                    "amount": 641,
+                    "type": "CALL",
+                    "time": "2022-04-02T02:29:25.965Z"
+                }
+            ],
+            "cards": [
+                {
+                    "bestCard": None,
+                    "holeCard": True,
+                    "index": 1,
+                    "isRevealed": True,
+                    "rank": "2",
+                    "suit": "DIAMONDS"
+                },
+                {
+                    "bestCard": True,
+                    "holeCard": True,
+                    "index": 2,
+                    "isRevealed": True,
+                    "rank": "A",
+                    "suit": "DIAMONDS"
+                },
+                {
+                    "bestCard": True,
+                    "holeCard": False,
+                    "index": 2,
+                    "isRevealed": True,
+                    "rank": "4",
+                    "suit": "HEARTS"
+                },
+                {
+                    "bestCard": True,
+                    "holeCard": False,
+                    "index": 3,
+                    "isRevealed": True,
+                    "rank": "4",
+                    "suit": "SPADES"
+                },
+                {
+                    "bestCard": True,
+                    "holeCard": False,
+                    "index": 5,
+                    "isRevealed": True,
+                    "rank": "K",
+                    "suit": "DIAMONDS"
+                },
+                {
+                    "bestCard": True,
+                    "holeCard": False,
+                    "index": 6,
+                    "isRevealed": True,
+                    "rank": "9",
+                    "suit": "SPADES"
+                }
+            ],
+            "account": 1743094,
+            "handRank": "PAIR",
+            "handValue": 978729,
+            "index": 0,
+            "isBigBlind": True,
+            "isDealer": False,
+            "isFolded": False,
+            "isSmallBlind": False,
+            "mucked": False,
+            "name": "StrictlyMonotonic",
+            "placing": 3,
+            "potContributions": 641,
+            "rakeTaken": 0,
+            "stack": 0,
+            "winnings": 0
+        },
+        {
+            "actions": [
+                {
+                    "amount": None,
+                    "type": "FOLD",
+                    "time": "2022-04-02T02:29:06.227Z"
+                }
+            ],
+            "cards": [
+                {
+                    "holeCard": True,
+                    "index": 1,
+                    "isRevealed": None,
+                    "rank": None,
+                    "suit": None
+                },
+                {
+                    "holeCard": True,
+                    "index": 2,
+                    "isRevealed": None,
+                    "rank": None,
+                    "suit": None
+                }
+            ],
+            "account": 1694303,
+            "index": 1,
+            "isBigBlind": False,
+            "isDealer": False,
+            "isFolded": True,
+            "isSmallBlind": False,
+            "mucked": True,
+            "name": "LoganBtchtree",
+            "placing": 4,
+            "potContributions": 0,
+            "rakeTaken": 0,
+            "stack": 1853,
+            "winnings": 0
+        },
+        {
+            "actions": [
+                {
+                    "amount": 800,
+                    "type": "RAISE",
+                    "time": "2022-04-02T02:29:08.504Z"
+                },
+                {
+                    "amount": 1200,
+                    "type": "CALL",
+                    "time": "2022-04-02T02:29:28.409Z"
+                },
+                {
+                    "amount": None,
+                    "type": "CHECK",
+                    "time": "2022-04-02T02:29:32.405Z"
+                },
+                {
+                    "amount": None,
+                    "type": "FOLD",
+                    "time": "2022-04-02T02:29:43.368Z"
+                }
+            ],
+            "cards": [
+                {
+                    "holeCard": True,
+                    "index": 1,
+                    "isRevealed": None,
+                    "rank": None,
+                    "suit": None
+                },
+                {
+                    "holeCard": True,
+                    "index": 2,
+                    "isRevealed": None,
+                    "rank": None,
+                    "suit": None
+                }
+            ],
+            "account": 951798,
+            "index": 2,
+            "isBigBlind": False,
+            "isDealer": False,
+            "isFolded": True,
+            "isSmallBlind": False,
+            "mucked": True,
+            "name": "Scare City",
+            "placing": 4,
+            "potContributions": 1200,
+            "rakeTaken": 0,
+            "stack": 8575,
+            "winnings": 0
+        },
+        {
+            "actions": [
+                {
+                    "amount": 1200,
+                    "type": "RAISE",
+                    "time": "2022-04-02T02:29:14.647Z"
+                },
+                {
+                    "amount": 1941,
+                    "type": "RAISE",
+                    "time": "2022-04-02T02:29:37.938Z"
+                }
+            ],
+            "cards": [
+                {
+                    "bestCard": True,
+                    "holeCard": True,
+                    "index": 1,
+                    "isRevealed": True,
+                    "rank": "Q",
+                    "suit": "HEARTS"
+                },
+                {
+                    "bestCard": True,
+                    "holeCard": True,
+                    "index": 2,
+                    "isRevealed": True,
+                    "rank": "Q",
+                    "suit": "CLUBS"
+                },
+                {
+                    "bestCard": True,
+                    "holeCard": False,
+                    "index": 4,
+                    "isRevealed": True,
+                    "rank": "4",
+                    "suit": "HEARTS"
+                },
+                {
+                    "bestCard": True,
+                    "holeCard": False,
+                    "index": 5,
+                    "isRevealed": True,
+                    "rank": "4",
+                    "suit": "SPADES"
+                },
+                {
+                    "bestCard": True,
+                    "holeCard": False,
+                    "index": 6,
+                    "isRevealed": True,
+                    "rank": "K",
+                    "suit": "DIAMONDS"
+                }
+            ],
+            "account": 1762514,
+            "handRank": "TWO_PAIR",
+            "handValue": 2167723,
+            "index": 4,
+            "isBigBlind": False,
+            "isDealer": False,
+            "isFolded": False,
+            "isSmallBlind": False,
+            "mucked": False,
+            "name": "Bruxo0",
+            "placing": 2,
+            "potContributions": 3141,
+            "rakeTaken": 0,
+            "stack": 0,
+            "winnings": 0
+        },
+        {
+            "actions": [
+                {
+                    "amount": None,
+                    "type": "FOLD",
+                    "time": "2022-04-02T02:29:14.968Z"
+                }
+            ],
+            "cards": [
+                {
+                    "holeCard": True,
+                    "index": 1,
+                    "isRevealed": None,
+                    "rank": None,
+                    "suit": None
+                },
+                {
+                    "holeCard": True,
+                    "index": 2,
+                    "isRevealed": None,
+                    "rank": None,
+                    "suit": None
+                }
+            ],
+            "account": 788925,
+            "index": 5,
+            "isBigBlind": False,
+            "isDealer": True,
+            "isFolded": True,
+            "isSmallBlind": False,
+            "mucked": True,
+            "name": "Nightbreaker",
+            "placing": 4,
+            "potContributions": 0,
+            "rakeTaken": 0,
+            "stack": 1520,
+            "winnings": 0
+        },
+        {
+            "actions": [
+                {
+                    "amount": 200,
+                    "type": "POST_BLIND",
+                    "time": "2022-04-02T02:29:05.741Z"
+                },
+                {
+                    "amount": 1200,
+                    "type": "CALL",
+                    "time": "2022-04-02T02:29:25.586Z"
+                },
+                {
+                    "amount": None,
+                    "type": "CHECK",
+                    "time": "2022-04-02T02:29:31.788Z"
+                },
+                {
+                    "amount": 3882,
+                    "type": "RAISE",
+                    "time": "2022-04-02T02:29:42.684Z"
+                }
+            ],
+            "cards": [
+                {
+                    "bestCard": True,
+                    "holeCard": True,
+                    "index": 1,
+                    "isRevealed": True,
+                    "rank": "7",
+                    "suit": "HEARTS"
+                },
+                {
+                    "bestCard": True,
+                    "holeCard": True,
+                    "index": 2,
+                    "isRevealed": True,
+                    "rank": "7",
+                    "suit": "SPADES"
+                },
+                {
+                    "bestCard": True,
+                    "holeCard": False,
+                    "index": 4,
+                    "isRevealed": True,
+                    "rank": "7",
+                    "suit": "CLUBS"
+                },
+                {
+                    "bestCard": True,
+                    "holeCard": False,
+                    "index": 5,
+                    "isRevealed": True,
+                    "rank": "4",
+                    "suit": "HEARTS"
+                },
+                {
+                    "bestCard": True,
+                    "holeCard": False,
+                    "index": 6,
+                    "isRevealed": True,
+                    "rank": "4",
+                    "suit": "SPADES"
+                }
+            ],
+            "account": 1763894,
+            "handRank": "FULL_HOUSE",
+            "handValue": 4935889,
+            "index": 8,
+            "isBigBlind": False,
+            "isDealer": False,
+            "isFolded": False,
+            "isSmallBlind": True,
+            "mucked": False,
+            "name": "kljdfasdkasfljalsd",
+            "placing": 1,
+            "potContributions": 5082,
+            "rakeTaken": 0,
+            "stack": 8570,
+            "winnings": 10064
+        }
+    ],
+    "baseUnit": 1,
+    "blinds": {
+        "big": 400,
+        "small": 200
+    },
+    "currency": "BCH",
+    "key": "7cc6d680c0dd7fb3d7e494ace0979242",
+    "name": "Hued Fraudsmen183",
+    "numSeats": 9,
+    "rakeTaken": 0,
+    "table": 647071
+}

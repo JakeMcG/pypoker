@@ -3,22 +3,22 @@ const positions = ["BB", "SB", "D", "D-1", "D-2", "D-3", "D-4", "D-5", "D-6"];
 // custom aggregator to show mean and count
 var display = function() {
     return function() {
-    return {
-        count: 0,
-        average: 0,
-        push: function(e) {
-        this.average = (this.count*this.average + e.vpip) / (this.count+1);
-        this.count++;
-        },
-        value: function() {
-        return this;
-        },
-        format: function(x) {
-        vpip = (x.average * 100).toFixed(1);
-        n = x.count;
-        return vpip + " % (n = " + n + ")";
+        return {
+            count: 0,
+            average: 0,
+            push: function(e) {
+                this.average = (this.count*this.average + e.vpip) / (this.count+1);
+                this.count++;
+            },
+            value: function() {
+                return this;
+            },
+            format: function(x) {
+                vpip = (x.average * 100).toFixed(1);
+                n = x.count;
+                return vpip + " % (n = " + n + ")";
+            }
         }
-    }
     }
 }
 
