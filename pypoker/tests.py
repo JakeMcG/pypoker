@@ -21,7 +21,7 @@ def loadJsonFromFile(fileName):
 def populateCardDb():
     models.PlayingCard.objects.all().delete()
 
-    suits = ["Hearts", "Clubs", "Diamonds", "Spades"]
+    suits = models.PlayingCard.Suit.values
     ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"]
     assert(len(ranks) == 13)
 
@@ -69,7 +69,7 @@ class BcpTests(TestCase):
         cardModel = bcp.cardModelFromJson(card)
 
         self.assertEqual(type(cardModel), models.PlayingCard)
-        self.assertEqual(cardModel.suit, "Clubs")
+        self.assertEqual(cardModel.suit, models.PlayingCard.Suit.CLUBS)
         self.assertEqual(cardModel.rank, "7")
         self.assertEqual(cardModel.rank_integer, 6)
 
@@ -116,11 +116,11 @@ class BcpTests(TestCase):
 
         flop_cards = h.flop_cards.all()
         self.assertEqual(len(flop_cards), 3)
-        self.assertTrue(getCardModel("Clubs", "7") in flop_cards)
-        self.assertTrue(getCardModel("Spades", "4") in flop_cards)
-        self.assertTrue(getCardModel("Diamonds", "K") in flop_cards)
-        self.assertEqual(h.turn_card, getCardModel("Hearts", "4"))
-        self.assertEqual(h.river_card, getCardModel("Spades", "9"))
+        self.assertTrue(getCardModel("C", "7") in flop_cards)
+        self.assertTrue(getCardModel("S", "4") in flop_cards)
+        self.assertTrue(getCardModel("D", "K") in flop_cards)
+        self.assertEqual(h.turn_card, getCardModel("H", "4"))
+        self.assertEqual(h.river_card, getCardModel("S", "9"))
 
         seats = h.seat_set.all()
         self.assertEqual(len(seats), 6)
@@ -144,8 +144,8 @@ class BcpTests(TestCase):
         self.assertEqual(s[0].winnings, 0)
         hole_cards = s[0].hole_cards.all()
         self.assertEqual(len(hole_cards), 2)
-        self.assertTrue(getCardModel("Diamonds", "A") in hole_cards)
-        self.assertTrue(getCardModel("Diamonds", "2") in hole_cards)
+        self.assertTrue(getCardModel("D", "A") in hole_cards)
+        self.assertTrue(getCardModel("D", "2") in hole_cards)
         self.assertEqual(s[0].holeCardsString(), "A2s")
 
         self.assertEqual(s[0].isVPIP(), True)

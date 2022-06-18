@@ -179,13 +179,14 @@ def getAllActions(seats):
     return out
 
 def getHoleCards(seat_data):
+    # PROBLEM: when hero folds, their hole cards aren't revealed by getHistory...
     for c in seat_data["cards"]:
         if c["holeCard"] and c["isRevealed"]:
             yield cardModelFromJson(c)
 
 def cardModelFromJson(card_data):
-    # needs to be site-specific depending on conventions 
-    # PROBLEM: when hero folds, their hole cards aren't revealed by getHistory...
+    # on BCP, cards are "HEARTS", "CLUBS" etc.
+    # first character is used to map to Suit enum
     return models.PlayingCard.objects.get(
-        suit__iexact=card_data["suit"], # iexact means case-insensitive
+        suit=card_data["suit"][0],
         rank=card_data["rank"])

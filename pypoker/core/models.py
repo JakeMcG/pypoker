@@ -11,7 +11,15 @@ class Table(models.Model):
     name = models.CharField(max_length=200)
 
 class PlayingCard(models.Model):
-    suit = models.CharField(max_length=20)
+    class Suit(models.TextChoices):
+        SPADES = "S"
+        HEARTS = "H"
+        DIAMONDS = "D"
+        CLUBS = "C"
+
+    suit = models.CharField(max_length=1, 
+        choices=Suit.choices, 
+        default=Suit.SPADES)
     rank = models.CharField(max_length=2) # 2, 3, ... J, Q, K, A
     rank_integer = models.IntegerField() # 2 ranks 1, A ranks 13
 
