@@ -74,50 +74,50 @@
             ],
             "cards": [
                 {
-                    "bestCard": None,
-                    "holeCard": True,
+                    "bestCard": null,
+                    "holeCard": true,
                     "index": 1,
-                    "isRevealed": True,
+                    "isRevealed": true,
                     "rank": "2",
                     "suit": "DIAMONDS"
                 },
                 {
-                    "bestCard": True,
-                    "holeCard": True,
+                    "bestCard": true,
+                    "holeCard": true,
                     "index": 2,
-                    "isRevealed": True,
+                    "isRevealed": true,
                     "rank": "A",
                     "suit": "DIAMONDS"
                 },
                 {
-                    "bestCard": True,
-                    "holeCard": False,
+                    "bestCard": true,
+                    "holeCard": false,
                     "index": 2,
-                    "isRevealed": True,
+                    "isRevealed": true,
                     "rank": "4",
                     "suit": "HEARTS"
                 },
                 {
-                    "bestCard": True,
-                    "holeCard": False,
+                    "bestCard": true,
+                    "holeCard": false,
                     "index": 3,
-                    "isRevealed": True,
+                    "isRevealed": true,
                     "rank": "4",
                     "suit": "SPADES"
                 },
                 {
-                    "bestCard": True,
-                    "holeCard": False,
+                    "bestCard": true,
+                    "holeCard": false,
                     "index": 5,
-                    "isRevealed": True,
+                    "isRevealed": true,
                     "rank": "K",
                     "suit": "DIAMONDS"
                 },
                 {
-                    "bestCard": True,
-                    "holeCard": False,
+                    "bestCard": true,
+                    "holeCard": false,
                     "index": 6,
-                    "isRevealed": True,
+                    "isRevealed": true,
                     "rank": "9",
                     "suit": "SPADES"
                 }
@@ -126,12 +126,12 @@
             "handRank": "PAIR",
             "handValue": 978729,
             "index": 0,
-            "isBigBlind": True,
-            "isDealer": False,
-            "isFolded": False,
-            "isSmallBlind": False,
-            "mucked": False,
-            "name": "StrictlyMonotonic",
+            "isBigBlind": true,
+            "isDealer": false,
+            "isFolded": false,
+            "isSmallBlind": false,
+            "mucked": false,
+            "name": "Phil H",
             "placing": 3,
             "potContributions": 641,
             "rakeTaken": 0,
@@ -141,35 +141,35 @@
         {
             "actions": [
                 {
-                    "amount": None,
+                    "amount": null,
                     "type": "FOLD",
                     "time": "2022-04-02T02:29:06.227Z"
                 }
             ],
             "cards": [
                 {
-                    "holeCard": True,
+                    "holeCard": true,
                     "index": 1,
-                    "isRevealed": None,
-                    "rank": None,
-                    "suit": None
+                    "isRevealed": null,
+                    "rank": null,
+                    "suit": null
                 },
                 {
-                    "holeCard": True,
+                    "holeCard": true,
                     "index": 2,
-                    "isRevealed": None,
-                    "rank": None,
-                    "suit": None
+                    "isRevealed": null,
+                    "rank": null,
+                    "suit": null
                 }
             ],
             "account": 1694303,
             "index": 1,
-            "isBigBlind": False,
-            "isDealer": False,
-            "isFolded": True,
-            "isSmallBlind": False,
-            "mucked": True,
-            "name": "LoganBtchtree",
+            "isBigBlind": false,
+            "isDealer": false,
+            "isFolded": true,
+            "isSmallBlind": false,
+            "mucked": true,
+            "name": "Tony G",
             "placing": 4,
             "potContributions": 0,
             "rakeTaken": 0,
@@ -189,40 +189,40 @@
                     "time": "2022-04-02T02:29:28.409Z"
                 },
                 {
-                    "amount": None,
+                    "amount": null,
                     "type": "CHECK",
                     "time": "2022-04-02T02:29:32.405Z"
                 },
                 {
-                    "amount": None,
+                    "amount": null,
                     "type": "FOLD",
                     "time": "2022-04-02T02:29:43.368Z"
                 }
             ],
             "cards": [
                 {
-                    "holeCard": True,
+                    "holeCard": true,
                     "index": 1,
-                    "isRevealed": None,
-                    "rank": None,
-                    "suit": None
+                    "isRevealed": null,
+                    "rank": null,
+                    "suit": null
                 },
                 {
-                    "holeCard": True,
+                    "holeCard": true,
                     "index": 2,
-                    "isRevealed": None,
-                    "rank": None,
-                    "suit": None
+                    "isRevealed": null,
+                    "rank": null,
+                    "suit": null
                 }
             ],
             "account": 951798,
             "index": 2,
-            "isBigBlind": False,
-            "isDealer": False,
-            "isFolded": True,
-            "isSmallBlind": False,
-            "mucked": True,
-            "name": "Scare City",
+            "isBigBlind": false,
+            "isDealer": false,
+            "isFolded": true,
+            "isSmallBlind": false,
+            "mucked": true,
+            "name": "Doyle B",
             "placing": 4,
             "potContributions": 1200,
             "rakeTaken": 0,
@@ -244,42 +244,42 @@
             ],
             "cards": [
                 {
-                    "bestCard": True,
-                    "holeCard": True,
+                    "bestCard": true,
+                    "holeCard": true,
                     "index": 1,
-                    "isRevealed": True,
+                    "isRevealed": true,
                     "rank": "Q",
                     "suit": "HEARTS"
                 },
                 {
-                    "bestCard": True,
-                    "holeCard": True,
+                    "bestCard": true,
+                    "holeCard": true,
                     "index": 2,
-                    "isRevealed": True,
+                    "isRevealed": true,
                     "rank": "Q",
                     "suit": "CLUBS"
                 },
                 {
-                    "bestCard": True,
-                    "holeCard": False,
+                    "bestCard": true,
+                    "holeCard": false,
                     "index": 4,
-                    "isRevealed": True,
+                    "isRevealed": true,
                     "rank": "4",
                     "suit": "HEARTS"
                 },
                 {
-                    "bestCard": True,
-                    "holeCard": False,
+                    "bestCard": true,
+                    "holeCard": false,
                     "index": 5,
-                    "isRevealed": True,
+                    "isRevealed": true,
                     "rank": "4",
                     "suit": "SPADES"
                 },
                 {
-                    "bestCard": True,
-                    "holeCard": False,
+                    "bestCard": true,
+                    "holeCard": false,
                     "index": 6,
-                    "isRevealed": True,
+                    "isRevealed": true,
                     "rank": "K",
                     "suit": "DIAMONDS"
                 }
@@ -288,12 +288,12 @@
             "handRank": "TWO_PAIR",
             "handValue": 2167723,
             "index": 4,
-            "isBigBlind": False,
-            "isDealer": False,
-            "isFolded": False,
-            "isSmallBlind": False,
-            "mucked": False,
-            "name": "Bruxo0",
+            "isBigBlind": false,
+            "isDealer": false,
+            "isFolded": false,
+            "isSmallBlind": false,
+            "mucked": false,
+            "name": "Phil I",
             "placing": 2,
             "potContributions": 3141,
             "rakeTaken": 0,
@@ -303,35 +303,35 @@
         {
             "actions": [
                 {
-                    "amount": None,
+                    "amount": null,
                     "type": "FOLD",
                     "time": "2022-04-02T02:29:14.968Z"
                 }
             ],
             "cards": [
                 {
-                    "holeCard": True,
+                    "holeCard": true,
                     "index": 1,
-                    "isRevealed": None,
-                    "rank": None,
-                    "suit": None
+                    "isRevealed": null,
+                    "rank": null,
+                    "suit": null
                 },
                 {
-                    "holeCard": True,
+                    "holeCard": true,
                     "index": 2,
-                    "isRevealed": None,
-                    "rank": None,
-                    "suit": None
+                    "isRevealed": null,
+                    "rank": null,
+                    "suit": null
                 }
             ],
             "account": 788925,
             "index": 5,
-            "isBigBlind": False,
-            "isDealer": True,
-            "isFolded": True,
-            "isSmallBlind": False,
-            "mucked": True,
-            "name": "Nightbreaker",
+            "isBigBlind": false,
+            "isDealer": true,
+            "isFolded": true,
+            "isSmallBlind": false,
+            "mucked": true,
+            "name": "Mike M",
             "placing": 4,
             "potContributions": 0,
             "rakeTaken": 0,
@@ -351,7 +351,7 @@
                     "time": "2022-04-02T02:29:25.586Z"
                 },
                 {
-                    "amount": None,
+                    "amount": null,
                     "type": "CHECK",
                     "time": "2022-04-02T02:29:31.788Z"
                 },
@@ -363,42 +363,42 @@
             ],
             "cards": [
                 {
-                    "bestCard": True,
-                    "holeCard": True,
+                    "bestCard": true,
+                    "holeCard": true,
                     "index": 1,
-                    "isRevealed": True,
+                    "isRevealed": true,
                     "rank": "7",
                     "suit": "HEARTS"
                 },
                 {
-                    "bestCard": True,
-                    "holeCard": True,
+                    "bestCard": true,
+                    "holeCard": true,
                     "index": 2,
-                    "isRevealed": True,
+                    "isRevealed": true,
                     "rank": "7",
                     "suit": "SPADES"
                 },
                 {
-                    "bestCard": True,
-                    "holeCard": False,
+                    "bestCard": true,
+                    "holeCard": false,
                     "index": 4,
-                    "isRevealed": True,
+                    "isRevealed": true,
                     "rank": "7",
                     "suit": "CLUBS"
                 },
                 {
-                    "bestCard": True,
-                    "holeCard": False,
+                    "bestCard": true,
+                    "holeCard": false,
                     "index": 5,
-                    "isRevealed": True,
+                    "isRevealed": true,
                     "rank": "4",
                     "suit": "HEARTS"
                 },
                 {
-                    "bestCard": True,
-                    "holeCard": False,
+                    "bestCard": true,
+                    "holeCard": false,
                     "index": 6,
-                    "isRevealed": True,
+                    "isRevealed": true,
                     "rank": "4",
                     "suit": "SPADES"
                 }
@@ -407,12 +407,12 @@
             "handRank": "FULL_HOUSE",
             "handValue": 4935889,
             "index": 8,
-            "isBigBlind": False,
-            "isDealer": False,
-            "isFolded": False,
-            "isSmallBlind": True,
-            "mucked": False,
-            "name": "kljdfasdkasfljalsd",
+            "isBigBlind": false,
+            "isDealer": false,
+            "isFolded": false,
+            "isSmallBlind": true,
+            "mucked": false,
+            "name": "Daniel N",
             "placing": 1,
             "potContributions": 5082,
             "rakeTaken": 0,
@@ -426,8 +426,8 @@
         "small": 200
     },
     "currency": "BCH",
-    "key": "7cc6d680c0dd7fb3d7e494ace0979242",
-    "name": "Hued Fraudsmen183",
+    "key": "xxx",
+    "name": "Table Name",
     "numSeats": 9,
     "rakeTaken": 0,
     "table": 647071
