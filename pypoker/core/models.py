@@ -69,8 +69,7 @@ class Seat(models.Model):
         return self.potContributions() == self.starting_stack
 
     def allInRound(self):
-        # if all-in, returns PREFLOP, FLOP, TURN or RIVER
-        # else returns empty string
+        # round in which player went all-in
         if self.isAllIn():
             # if all-in, that bet will be the last action in the hand for this seat
             return self.action_set.order_by('-number')[0].round
@@ -78,8 +77,8 @@ class Seat(models.Model):
         
     def isVPIP(self):
         return self.action_set.filter(
-            round="PREFLOP").filter(
-                Q(type="CALL") | Q(type="RAISE")).count() > 0
+            round=Action.Round.PREFLOP).filter(
+                Q(type=Action.Type.CALL) | Q(type=Action.Type.RAISE)).count() > 0
     
     def preflopBettorsAfter(self):
         # different convention of position
@@ -90,11 +89,11 @@ class Seat(models.Model):
         # returns number of pre-flop calls or voluntary bets
         # from seats acting before this one
         # range is 0 to N-1
-        # query action number against position+2, since POST_BLINDs are always first two actions
+        # query action number against position+2, since blinds are always first two actions
         # even in two-handed games
         return Action.objects.filter(
-            seat__hand=self.hand, number__lt=(self.position+2), round="PREFLOP").filter(
-                Q(type="CALL") | Q(type="RAISE")).count() # note POST_BLIND is not voluntary     
+            seat__hand=self.hand, number__lt=(self.position+2), round=Action.Round.PREFLOP).filter(
+                Q(type=Action.Type.CALL) | Q(type=Action.Type.RAISE)).count() # note blinds are not voluntary     
 
     def holeCardsString(self):
         if not self.hole_cards_shown:
@@ -110,8 +109,25 @@ class Seat(models.Model):
             return out
 
 class Action(models.Model):
+    class Type(models.TextChoices):
+        BLIND = "B"
+        FOLD = "F"
+        CHECK = "K"
+        CALL = "C"
+        RAISE = "R"
+
+    class Round(models.TextChoices):
+        PREFLOP = "P"
+        FLOP = "F"
+        TURN = "T"
+        RIVER = "R"
+
     seat = models.ForeignKey(Seat, on_delete=models.CASCADE)
-    type = models.CharField(max_length=10) # POST_BLIND, CHECK, CALL, RAISE, FOLD
+    type = models.CharField(max_length=1,
+        choices=Type.choices,
+        default=Type.CHECK)
     amount = models.IntegerField(default=0)
-    round = models.CharField(max_length=20) # PREFLOP, FLOP, TURN, RIVER
+    round = models.CharField(max_length=1,
+        choices=Round.choices,
+        default=Round.PREFLOP)
     number = models.IntegerField(default=0) # puts actions is sorted order within Hand, starts at 1

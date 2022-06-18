@@ -4,6 +4,15 @@ from . import network
 
 FORCE_CREATE = False
 
+_bcp_actions = ["POST_BLIND", "FOLD", "CHECK", "CALL", "RAISE"]
+ACTION_MAPPING = dict(zip(
+    _bcp_actions, models.Action.Type.values
+))
+_bcp_rounds = ["PREFLOP", "FLOP", "TURN", "RIVER"]
+ROUND_MAPPING = dict(zip(
+    _bcp_rounds, models.Action.Round.values
+))
+
 def loadRecentHandsToDb(username, password):
     result = {
         "error": False,
@@ -111,10 +120,10 @@ def storeHand(hand: dict):
             seat=models.Seat.objects.get(
                 hand=h,
                 player__user_name=a["player"]),
-            type=a["type"],
+            type=ACTION_MAPPING[a["type"]],
             amount=a["amount"],
-            round=a["round"],
-            number=n+1)  
+            round=ROUND_MAPPING[a["round"]],
+            number=n+1)
 
     # store player positions
     for (player,pos) in getPlayerPositions(actions).items():

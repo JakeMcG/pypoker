@@ -153,7 +153,7 @@ class BcpTests(TestCase):
         self.assertEqual(s[0].vpipActionsBefore(), 3)
         self.assertEqual(s[0].potContributions(), 1041)
         self.assertEqual(s[0].isAllIn(), True)
-        self.assertEqual(s[0].allInRound(), "PREFLOP")
+        self.assertEqual(s[0].allInRound(), models.Action.Round.PREFLOP)
         self.assertEqual(s[0].profit(), -1041)
 
         s = seats.filter(player__user_name="Doyle B")
