@@ -43,6 +43,7 @@ class Seat(models.Model):
     is_small_blind = models.BooleanField(default=False)
     position = models.IntegerField(default=0)
     starting_stack = models.IntegerField(default=0)
+    winnings = models.IntegerField(default=0)
     # position convention:
     # increasing integers based on pre-flop betting order
     # 1 = under the gun
@@ -50,6 +51,9 @@ class Seat(models.Model):
 
     def potContributions(self):
         return self.action_set.aggregate(Sum('amount'))["amount__sum"]
+
+    def profit(self):
+        return self.winnings - self.potContributions()
 
     # so far haven't related all-in to an action
     # only to a seat

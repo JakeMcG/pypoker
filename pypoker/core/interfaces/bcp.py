@@ -93,7 +93,8 @@ def storeHand(hand: dict):
             is_winner=seat["placing"]==1,
             is_big_blind=seat["isBigBlind"],
             is_small_blind=seat["isSmallBlind"],
-            starting_stack=getStartingStack(seat)
+            starting_stack=getStartingStack(seat),
+            winnings=seat["winnings"]
         )
         # Note: seat["stack"] is at END of hand
         for c in getHoleCards(seat):

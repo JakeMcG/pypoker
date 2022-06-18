@@ -141,6 +141,7 @@ class BcpTests(TestCase):
         self.assertEqual(s[0].is_small_blind, False)
         self.assertEqual(s[0].position, 6)
         self.assertEqual(s[0].starting_stack, 1041)
+        self.assertEqual(s[0].winnings, 0)
         hole_cards = s[0].hole_cards.all()
         self.assertEqual(len(hole_cards), 2)
         self.assertTrue(getCardModel("Diamonds", "A") in hole_cards)
@@ -153,6 +154,7 @@ class BcpTests(TestCase):
         self.assertEqual(s[0].potContributions(), 1041)
         self.assertEqual(s[0].isAllIn(), True)
         self.assertEqual(s[0].allInRound(), "PREFLOP")
+        self.assertEqual(s[0].profit(), -1041)
 
         s = seats.filter(player__user_name="Doyle B")
         self.assertEqual(len(s), 1)
@@ -166,11 +168,14 @@ class BcpTests(TestCase):
         hole_cards = s[0].hole_cards.all()
         self.assertEqual(len(hole_cards), 0)
         self.assertEqual(s[0].holeCardsString(), "")
+        self.assertEqual(s[0].winnings, 0)
         
         self.assertEqual(s[0].isVPIP(), True)
         self.assertEqual(s[0].preflopBettorsAfter(), 4)
         self.assertEqual(s[0].vpipActionsBefore(), 0)
+        self.assertEqual(s[0].potContributions(), 2000)
         self.assertEqual(s[0].isAllIn(), False)
+        self.assertEqual(s[0].profit(), -2000)
 
         s = seats.filter(player__user_name="Mike M")
         self.assertEqual(s[0].isVPIP(), False)
@@ -180,6 +185,11 @@ class BcpTests(TestCase):
 
         s = seats.filter(player__user_name="Phil I")
         self.assertEqual(s[0].holeCardsString(), "QQ")
+
+        s = seats.filter(player__user_name="Daniel N")
+        self.assertEqual(s[0].winnings, 10064)
+        self.assertEqual(s[0].potContributions(), 5282)
+        self.assertEqual(s[0].profit(), 4782)
 
     def testPreflopStats(self):
         p = models.Player.objects.get(user_name="Phil H")
