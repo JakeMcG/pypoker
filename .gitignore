@@ -1,0 +1,5 @@
+__pycache__
+*.sqlite3
+vendor
+package-lock.json
+node_modules
