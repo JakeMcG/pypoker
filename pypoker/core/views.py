@@ -3,28 +3,26 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from .interfaces import bcp
 import core.models as models
-from .analysis import preflop as pf
-import json
+from .analysis import seat_metrics
 
-def getHero():
-    return models.Player.objects.get(is_hero=True)
+def getHeroSeats():
+    return models.Seat.objects.filter(player__is_hero=True)
 
 def parseDate(dateStr):
     return datetime.datetime.strptime(dateStr,
         "%Y-%m-%d")
 
-def filterSeats(player, filters):
+def filterByDateAndBigBlind(seats, filters):
     # corresponds to front-end hand filter
-    out = player.seat_set.all()
     if filters["min-date"] != "":
-        out = out.filter(hand__time_stamp__gt=parseDate(filters["min-date"]))
+        seats = seats.filter(hand__time_stamp__gt=parseDate(filters["min-date"]))
     if filters["max-date"] != "":
-        out = out.filter(hand__time_stamp__lt=parseDate(filters["max-date"]))
+        seats = seats.filter(hand__time_stamp__lt=parseDate(filters["max-date"]))
     if filters["min-bb"] != "":
-        out = out.filter(hand__big_blind__gt=filters["min-bb"])
+        seats = seats.filter(hand__big_blind__gt=filters["min-bb"])
     if filters["max-bb"] != "":
-        out = out.filter(hand__big_blind__lt=filters["max-bb"])
-    return out
+        seats = seats.filter(hand__big_blind__lt=filters["max-bb"])
+    return seats
 
 def index(request):
     return render(request, "index.html")
@@ -44,10 +42,23 @@ def retrieve(request):
 def preflop(request):
     # preflop data is requested via ajax POST request
     if request.is_ajax and request.method == "POST":
-        # populate context
-        hero = getHero()
-        seats = filterSeats(hero, request.POST)
-        response = pf.vpipBySeat(seats)
+        seats = filterByDateAndBigBlind(getHeroSeats(), request.POST)
+
+        for s in seats.filter(metrics_fresh=False):
+            seat_metrics.update_metrics(s)
+
+        response = []
+        for s in seats:
+            el = {}
+            vpip = s.getMetric(models.BinarySeatMetric.Metric.VPIP)
+            if not vpip.eligibility:
+                continue
+            el["starting_stack"] = s.starting_stack
+            el["position"] = s.preflopBettorsAfter()
+            el["big_blind"] = s.hand.big_blind
+            el["vpip"] = vpip.value
+            el["vp_before"] = s.vpipActionsBefore()
+            response.append(el)
         return JsonResponse(response, status=200, safe=False)
     # else render the page
     return render(request, "preflop.html")

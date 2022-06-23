@@ -8,7 +8,7 @@ _bcp_actions = ["POST_BLIND", "FOLD", "CHECK", "CALL", "RAISE"]
 ACTION_MAPPING = dict(zip(
     _bcp_actions, models.Action.Type.values
 ))
-_bcp_rounds = ["PREFLOP", "FLOP", "TURN", "RIVER"]
+_bcp_rounds = ["", "PREFLOP", "FLOP", "TURN", "RIVER"]
 ROUND_MAPPING = dict(zip(
     _bcp_rounds, models.Action.Round.values
 ))
@@ -116,13 +116,18 @@ def storeHand(hand: dict):
     actions = getActionsByRound(hand["seats"], hand["rounds"])
     # list of dicts, augmented version of bcp actions
     for (n,a) in enumerate(actions):
+        if a["type"] == "POST_BLIND":
+            round = models.Action.Round.BLINDS
+        else:
+            round = ROUND_MAPPING[a["round"]]
+        
         models.Action.objects.create(
             seat=models.Seat.objects.get(
                 hand=h,
                 player__user_name=a["player"]),
             type=ACTION_MAPPING[a["type"]],
             amount=a["amount"],
-            round=ROUND_MAPPING[a["round"]],
+            round=round,
             number=n+1)
 
     # store player positions

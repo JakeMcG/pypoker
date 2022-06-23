@@ -52,6 +52,7 @@ class Seat(models.Model):
     position = models.IntegerField(default=0)
     starting_stack = models.IntegerField(default=0)
     winnings = models.IntegerField(default=0)
+    metrics_fresh = models.BooleanField(default=False)
     # position convention:
     # increasing integers based on pre-flop betting order
     # 1 = under the gun
@@ -74,6 +75,9 @@ class Seat(models.Model):
             # if all-in, that bet will be the last action in the hand for this seat
             return self.action_set.order_by('-number')[0].round
         return ""
+
+    def getMetric(self, metric):
+        return self.metrics.get(type=metric)
         
     def isVPIP(self):
         return self.action_set.filter(
@@ -86,14 +90,18 @@ class Seat(models.Model):
         return self.hand.playerCount() - self.position
 
     def vpipActionsBefore(self):
-        # returns number of pre-flop calls or voluntary bets
+        # returns number of pre-flop calls or voluntary bets (not blinds)
         # from seats acting before this one
         # range is 0 to N-1
-        # query action number against position+2, since blinds are always first two actions
-        # even in two-handed games
-        return Action.objects.filter(
-            seat__hand=self.hand, number__lt=(self.position+2), round=Action.Round.PREFLOP).filter(
-                Q(type=Action.Type.CALL) | Q(type=Action.Type.RAISE)).count() # note blinds are not voluntary     
+        # query on position+2 because first two actions are blinds
+        return self.allActionsInHand().filter(
+                number__lt=(self.position+2), round=Action.Round.PREFLOP
+            ).filter(
+                Q(type=Action.Type.CALL) | Q(type=Action.Type.RAISE)
+            ).count() 
+
+    def allActionsInHand(self):
+        return Action.objects.filter(seat__hand=self.hand).order_by('number')
 
     def holeCardsString(self):
         if not self.hole_cards_shown:
@@ -117,6 +125,7 @@ class Action(models.Model):
         RAISE = "R"
 
     class Round(models.TextChoices):
+        BLINDS = "B" # posting blinds belongs to this, not preflop
         PREFLOP = "P"
         FLOP = "F"
         TURN = "T"
@@ -131,3 +140,15 @@ class Action(models.Model):
         choices=Round.choices,
         default=Round.PREFLOP)
     number = models.IntegerField(default=0) # puts actions is sorted order within Hand, starts at 1
+
+class BinarySeatMetric(models.Model):
+    class Metric(models.IntegerChoices):
+        VPIP = 1
+        PREFLOP_RAISE = 2
+        PREFLOP_3BET = 3
+        PREFLOP_ALLIN = 4
+
+    seat = models.ForeignKey(Seat, on_delete=models.CASCADE, related_name="metrics")
+    type = models.IntegerField(choices=Metric.choices)
+    eligibility = models.BooleanField(default=False)
+    value = models.BooleanField(default=False)

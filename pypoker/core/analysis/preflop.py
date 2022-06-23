@@ -1,15 +1,3 @@
-import core.models as models
-
-# TODO:
-# some positions return -1
-# I think this is when sitting out
-# look into this, add is_sitting_in if possible
-# or this may be in a 2 player game when UTG folds
-# yes this is the problem, in bcp.getPlayerPositions()
-# add a hand with a big-blind win to tests
-# fix: if getPlayerPositions returns fewer than N entries
-# set Seat()
-
 def vpipBySeat(seats):
     # seats: a queryset over the Seat mode
     # returns list of dicts
