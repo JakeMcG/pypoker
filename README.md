@@ -26,6 +26,8 @@ The complete setup steps are covered in the [Developer Guide](#developer-guide).
 ## Importing Hands
 Click *Import More Hands* and enter your site credentials. Recent hands that are available will be imported.
 
+![Screen-recorded gif](docs/retrieve.gif)
+
 ## Analytics
 ### Pre-Flop
 The *pre-flop statistics* tab lets you analyze your VPIP (voluntarily puts money in pot) percentage across different positions, stack sizes and numbers of preceeding bets.
