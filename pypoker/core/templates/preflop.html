@@ -1,4 +1,4 @@
-{% extends "main.html" %}
+{% extends "filterable.html" %}
 {% load static %}
 
 {% block head %}
@@ -9,13 +9,11 @@
 <script type="text/javascript" src="{% static 'js/preflop.js' %}"></script>
 {% endblock head %}
 
-{% block main %}
+{% block top_content %}
 <h1>Pre-Flop Statistics</h1>
+{% endblock top_content %}
 
-<div id="hand-filter">
-    {% include "hand_filter.html" %}
-</div>
-
+{% block display %}
 <div id="pivot" style="display: none"></div>
 <div id="loader" style="padding-top: 10px">
     <div class="loader"></div>
@@ -23,5 +21,4 @@
 <div id="error" style="display: none">
     <h4 id="error-text"></h4>
 </div>
-
-{% endblock main %}
+{% endblock display %}

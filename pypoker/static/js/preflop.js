@@ -46,7 +46,7 @@ function updatePivot(rawData) {
         },
         // hide intermediate or renamed attributes
         hiddenAttributes: ["StackBigBlinds", "starting_stack", "big_blind",
-            "position", "time_stamp", "vp_before", "vpip", "num_players"]
+            "position", "vp_before", "vpip"]
     });
 }    
 
@@ -74,15 +74,7 @@ function fetchData() {
 
 $(document).ready(function() {
 
-    // set default min date in form
-    var d = new Date();
-    d.setMonth(d.getMonth() - 1);
-    $("input[name='min-date']").val(d.toISOString().substr(0,10)); // to format desired by HTML
-
-    $('#hand-filter-form').submit(function(event) {
-        event.preventDefault();
-        fetchData();
-    })
+    setFormCallback(fetchData); // from hand_filter.js
 
     fetchData(); // do this immediately once the date in the form is set   
 });

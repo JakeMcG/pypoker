@@ -1,0 +1,48 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block main %}
+{% block top_content %}
+{% endblock top_content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/filterable.css' %}">
+<div id="hand-filter">
+    <form id="hand-filter-form">
+        <table>
+            <thead>
+                <th></th>
+                <th>Min</th>
+                <th>Max</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Date</td>
+                    <td>
+                        <input type="date" name="min-date">
+                    </td>
+                    <td>
+                        <input type="date" name="max-date">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Big Blind</td>
+                    <td>
+                        <input type="text" name="min-bb">
+                    </td>
+                    <td>
+                        <input type="text" name="max-bb">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        {% block extra_filters %}
+        {% endblock extra_filters %}
+        <input type="submit" value="Update">
+    </form>
+    <script type="text/javascript" src="{% static 'js/hand_filter.js' %}"></script>
+</div>
+
+{% block display %}
+{% endblock display %}
+
+{% endblock main %}
