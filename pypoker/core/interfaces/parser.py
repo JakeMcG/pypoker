@@ -1,4 +1,4 @@
-import datetime
+import datetime, pytz
 
 # stack in BCP response appears to be after pot contributions but before winnings
 def getStartingStack(seat):
@@ -8,7 +8,7 @@ def convertBcpTime(timeStr):
     return datetime.datetime.strptime(
         timeStr,
         "%Y-%m-%dT%H:%M:%S.%fZ"
-    )   
+    ).replace(tzinfo=pytz.UTC) # BCP appears to use UTC time
 
 def getPlayerPositions(actions):
     # returns dict: player: position

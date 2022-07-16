@@ -27,7 +27,8 @@ class PlayingCard(models.Model):
 class Hand(models.Model):
     site_key = models.CharField(max_length=200) # lookup key from site
     table = models.ForeignKey(Table, on_delete=models.CASCADE, default=0)
-    time_stamp = models.DateTimeField()
+    played_time = models.DateTimeField()
+    imported_time = models.DateTimeField(null=True)
     big_blind = models.IntegerField(default=0)
     flop_cards = models.ManyToManyField(PlayingCard)
     turn_card = models.ForeignKey(PlayingCard, on_delete=models.DO_NOTHING, related_name="turn_cards", null=True)

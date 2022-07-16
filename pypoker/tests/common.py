@@ -1,7 +1,7 @@
 import json
 import core.models as models
 import itertools
-import datetime
+import datetime, pytz
 from core.interfaces import bcp
 import os
 
@@ -32,7 +32,7 @@ def storeTestHandsToDb():
         models.Hand.objects.create(
             site_key=data["key"],
             table=t,
-            time_stamp=datetime.datetime.now()
+            played_time=datetime.datetime.utcnow().replace(tzinfo=pytz.UTC) 
         )
         bcp.storeHand(data)
 

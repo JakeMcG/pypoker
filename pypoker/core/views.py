@@ -1,4 +1,4 @@
-import datetime
+import datetime, pytz
 from django.http import JsonResponse
 from django.shortcuts import render
 from .interfaces import bcp
@@ -6,22 +6,23 @@ import core.models as models
 from .analysis import seat_metrics
 
 def getHeroSeats():
-    return models.Seat.objects.filter(player__is_hero=True)
+    return models.Seat.objects.annotated().filter(player__is_hero=True)
+
 
 def parseDate(dateStr):
     return datetime.datetime.strptime(dateStr,
-        "%Y-%m-%d")
+        "%Y-%m-%d").replace(tzinfo=pytz.UTC)
 
 def filterByDateAndBigBlind(seats, filters):
     # corresponds to front-end hand filter
-    if filters["min-date"] != "":
-        seats = seats.filter(hand__time_stamp__gt=parseDate(filters["min-date"]))
-    if filters["max-date"] != "":
-        seats = seats.filter(hand__time_stamp__lt=parseDate(filters["max-date"]))
-    if filters["min-bb"] != "":
-        seats = seats.filter(hand__big_blind__gt=filters["min-bb"])
-    if filters["max-bb"] != "":
-        seats = seats.filter(hand__big_blind__lt=filters["max-bb"])
+    if filters.get("min-date", "") != "":
+        seats = seats.filter(hand__played_time__gte=parseDate(filters["min-date"]))
+    if filters.get("max-date", "") != "":
+        seats = seats.filter(hand__played_time__lte=parseDate(filters["max-date"]))
+    if filters.get("min-bb", "") != "":
+        seats = seats.filter(hand__big_blind__gte=filters["min-bb"])
+    if filters.get("max-bb", "") != "":
+        seats = seats.filter(hand__big_blind__lte=filters["max-bb"])
     return seats
 
 def index(request):

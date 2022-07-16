@@ -1,3 +1,4 @@
+import datetime, pytz
 import core.models as models
 from . import network, parser
 
@@ -35,10 +36,13 @@ def loadRecentHandsToDb(username, password):
 
                     h = models.Hand.objects.get_or_create(site_key=hh["key"],
                         table=t[0],
-                        time_stamp=parser.convertBcpTime(hh["timestamp"]))
-
+                        played_time=parser.convertBcpTime(hh["timestamp"]))
+                    
                     if h[1] or FORCE_CREATE:
-                        # this means a new hand has been created               
+                        # this means a new hand has been created    
+                        h[0].imported_time = datetime.datetime.utcnow().replace(tzinfo=pytz.UTC)
+                        h[0].save()
+                                
                         hand = socket.getHand(hh["key"])
                         # if there's a problem, hand's json contains an "error" field
                         if "error" in hand:

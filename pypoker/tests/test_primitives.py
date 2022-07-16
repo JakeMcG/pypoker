@@ -1,7 +1,7 @@
 from tests import common
 import core.models as models
 import core.views as views
-import datetime
+import datetime, pytz
 from django.test import TestCase
 
 class PrimitiveTests(TestCase):
@@ -18,5 +18,5 @@ class PrimitiveTests(TestCase):
     def testParseDate(self):
         date = views.parseDate("2022-05-15")
         expected = datetime.datetime(2022, 5, 15,
-            0, 0, 0, 0)
+            0, 0, 0, 0, tzinfo=pytz.UTC)
         self.assertEqual(date, expected)   

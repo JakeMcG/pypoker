@@ -1,7 +1,7 @@
 from django.test import TestCase
 import core.models as models
 from core.interfaces import bcp, parser
-import datetime
+import datetime, pytz
 from tests import common
 
 def getCardModel(suit, rank):
@@ -25,7 +25,7 @@ class BcpTests(TestCase):
     def testConvertTime(self):
         time = parser.convertBcpTime("2022-04-02T02:29:25.586Z")
         expected = datetime.datetime(2022, 4, 2,
-            2, 29, 25, 586000)
+            2, 29, 25, 586000, tzinfo=pytz.UTC)
         self.assertEqual(time, expected)
 
     def testHand(self):
@@ -117,4 +117,3 @@ class BcpTests(TestCase):
 
         s = seats.get(player__user_name="Phil I")
         self.assertEqual(s.holeCardsString(), "QQ")
-            
