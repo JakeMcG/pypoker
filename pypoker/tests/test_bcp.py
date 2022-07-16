@@ -1,6 +1,6 @@
 from django.test import TestCase
 import core.models as models
-from core.interfaces import bcp
+from core.interfaces import bcp, parser
 import datetime
 from tests import common
 
@@ -13,12 +13,8 @@ class BcpTests(TestCase):
         common.populateCardDb()
         common.storeTestHandsToDb()
 
-        # make json available for subsequent tests
-        cls.baselineHand = common.getHandJson("baseline")
-        cls.bbStealHand = common.getHandJson("big_blind_steal")
-
     def testCardToModel(self):     
-        card = self.baselineHand["rounds"][1]["community"][0]
+        card = common.getHandJson("oabw2ys48s")["rounds"][1]["community"][0]
         cardModel = bcp.cardModelFromJson(card)
 
         self.assertEqual(type(cardModel), models.PlayingCard)
@@ -26,38 +22,15 @@ class BcpTests(TestCase):
         self.assertEqual(cardModel.rank, "7")
         self.assertEqual(cardModel.rank_integer, 6)
 
-    def testActionsByRound(self):
-        actions = bcp.getActionsByRound(
-            self.baselineHand["seats"],
-            self.baselineHand["rounds"])
-        expected = [
-            {'amount': 400, 'type': 'POST_BLIND', 'player': 'Phil H', 'round': 'PREFLOP'}, 
-            {'amount': 200, 'type': 'POST_BLIND', 'player': 'Daniel N', 'round': 'PREFLOP'}, 
-            {'amount': 0, 'type': 'FOLD', 'player': 'Tony G', 'round': 'PREFLOP'}, 
-            {'amount': 800, 'type': 'RAISE', 'player': 'Doyle B', 'round': 'PREFLOP'}, 
-            {'amount': 1200, 'type': 'RAISE', 'player': 'Phil I', 'round': 'PREFLOP'}, 
-            {'amount': 0, 'type': 'FOLD','player': 'Mike M', 'round': 'PREFLOP'}, 
-            {'amount': 1200, 'type': 'CALL', 'player': 'Daniel N', 'round': 'PREFLOP'}, 
-            {'amount': 641, 'type': 'CALL', 'player': 'Phil H', 'round': 'PREFLOP'}, 
-            {'amount': 1200, 'type': 'CALL', 'player': 'Doyle B', 'round': 'PREFLOP'}, 
-            {'amount': 0, 'type': 'CHECK', 'player': 'Daniel N', 'round': 'FLOP'}, 
-            {'amount': 0, 'type': 'CHECK', 'player': 'Doyle B', 'round': 'FLOP'}, 
-            {'amount': 1941, 'type': 'RAISE', 'player': 'Phil I', 'round': 'FLOP'}, 
-            {'amount': 3882, 'type': 'RAISE', 'player': 'Daniel N', 'round': 'FLOP'}, 
-            {'amount': 0, 'type': 'FOLD', 'player': 'Doyle B', 'round': 'FLOP'}]
-        for (n,e) in enumerate(expected):
-            for (k,v) in e.items():
-                self.assertEqual(v, actions[n][k])
-
     def testConvertTime(self):
-        time = bcp.convertBcpTime("2022-04-02T02:29:25.586Z")
+        time = parser.convertBcpTime("2022-04-02T02:29:25.586Z")
         expected = datetime.datetime(2022, 4, 2,
             2, 29, 25, 586000)
         self.assertEqual(time, expected)
 
     def testHand(self):
         # hand-specific fields
-        h = models.Hand.objects.get(site_key=self.baselineHand["key"])
+        h = common.getHandObject("oabw2ys48s")
 
         self.assertEqual(h.big_blind, 400)
 
@@ -71,11 +44,11 @@ class BcpTests(TestCase):
 
         seats = h.seat_set.all()
         self.assertEqual(len(seats), 6)
-        self.assertEqual(h.playerCount(), 6)
+        self.assertEqual(h.player_count, 6)
         self.assertEqual(h.isAnyPlayerAllIn(), True)
 
     def testPositionsForBBSteal(self):
-        h = models.Hand.objects.get(site_key=self.bbStealHand["key"])
+        h = common.getHandObject("fob3lviaoh")
         seats = h.seat_set.all()
 
         for s in seats:
@@ -83,65 +56,65 @@ class BcpTests(TestCase):
                 self.assertEqual(s.position, 2)
             elif s.player.user_name == "Tony G":
                 self.assertEqual(s.position, 1)
+
+    def testAccounting(self):
+        # assert that every hands pot contributions as calculated by the parser
+        # (from the sum of actions)
+        # matches the pot contributions in the json file
+        for f in common.testFileNames():
+            testHand = common.getHandJson(f)
+            h = common.getHandObject(f)
+
+            for testSeat in testHand["seats"]:
+                s = h.seat_set.annotated().get(player__user_name=testSeat["name"])
+                self.assertEqual(s.pot_contributions, testSeat["potContributions"])
+                self.assertEqual(s.winnings, testSeat["winnings"])
+                self.assertEqual(s.profit, testSeat["winnings"] - testSeat["potContributions"])
     
-    def testSeats(self):     
+    def testSeats(self): 
         # seat-specific fields
-        h = models.Hand.objects.get(site_key=self.baselineHand["key"])
-        seats = h.seat_set.all()
+        h = common.getHandObject("oabw2ys48s")
+        seats = h.seat_set.annotated()
 
-        s = seats.filter(player__user_name="Phil H")
-        self.assertEqual(len(s), 1)
+        s = seats.get(player__user_name="Phil H")
 
-        self.assertEqual(s[0].hole_cards_shown, True)
-        self.assertEqual(s[0].is_winner, False)
-        self.assertEqual(s[0].is_big_blind, True)
-        self.assertEqual(s[0].is_small_blind, False)
-        self.assertEqual(s[0].position, 6)
-        self.assertEqual(s[0].starting_stack, 1041)
-        self.assertEqual(s[0].winnings, 0)
-        hole_cards = s[0].hole_cards.all()
+        self.assertEqual(s.hole_cards_shown, True)
+        self.assertEqual(s.is_winner, False)
+        self.assertEqual(s.is_big_blind, True)
+        self.assertEqual(s.is_small_blind, False)
+        self.assertEqual(s.position, 6)
+        hole_cards = s.hole_cards.all()
         self.assertEqual(len(hole_cards), 2)
         self.assertTrue(getCardModel("D", "A") in hole_cards)
         self.assertTrue(getCardModel("D", "2") in hole_cards)
-        self.assertEqual(s[0].holeCardsString(), "A2s")
+        self.assertEqual(s.holeCardsString(), "A2s")
 
-        self.assertEqual(s[0].preflopBettorsAfter(), 0)
-        self.assertEqual(s[0].vpipActionsBefore(), 3)
-        self.assertEqual(s[0].potContributions(), 1041)
-        self.assertEqual(s[0].isAllIn(), True)
-        self.assertEqual(s[0].allInRound(), models.Action.Round.PREFLOP)
-        self.assertEqual(s[0].profit(), -1041)
+        self.assertEqual(s.preflopBettorsAfter(), 0)
+        self.assertEqual(s.vpipActionsBefore(), 3)
+        self.assertEqual(s.starting_stack, 641)
+        self.assertEqual(s.is_all_in, True)
 
-        s = seats.filter(player__user_name="Doyle B")
-        self.assertEqual(len(s), 1)
+        s = seats.get(player__user_name="Doyle B")
 
-        self.assertEqual(s[0].hole_cards_shown, False)
-        self.assertEqual(s[0].is_winner, False)
-        self.assertEqual(s[0].is_big_blind, False)
-        self.assertEqual(s[0].is_small_blind, False)
-        self.assertEqual(s[0].position, 2)
-        self.assertEqual(s[0].starting_stack, 10575)
-        hole_cards = s[0].hole_cards.all()
+        self.assertEqual(s.hole_cards_shown, False)
+        self.assertEqual(s.is_winner, False)
+        self.assertEqual(s.is_big_blind, False)
+        self.assertEqual(s.is_small_blind, False)
+        self.assertEqual(s.position, 2)
+        self.assertEqual(s.starting_stack, 9775)
+        hole_cards = s.hole_cards.all()
         self.assertEqual(len(hole_cards), 0)
-        self.assertEqual(s[0].holeCardsString(), "")
-        self.assertEqual(s[0].winnings, 0)
+        self.assertEqual(s.holeCardsString(), "")
         
-        self.assertEqual(s[0].preflopBettorsAfter(), 4)
-        self.assertEqual(s[0].vpipActionsBefore(), 0)
-        self.assertEqual(s[0].potContributions(), 2000)
-        self.assertEqual(s[0].isAllIn(), False)
-        self.assertEqual(s[0].profit(), -2000)
+        self.assertEqual(s.preflopBettorsAfter(), 4)
+        self.assertEqual(s.vpipActionsBefore(), 0)
+        self.assertEqual(s.is_all_in, False)
 
-        s = seats.filter(player__user_name="Mike M")
-        self.assertEqual(s[0].preflopBettorsAfter(), 2)
-        self.assertEqual(s[0].vpipActionsBefore(), 2)
-        self.assertEqual(s[0].isAllIn(), False)
+        s = seats.get(player__user_name="Mike M")
+        self.assertEqual(s.preflopBettorsAfter(), 2)
+        self.assertEqual(s.vpipActionsBefore(), 2)
+        self.assertEqual(s.is_all_in, False)
 
-        s = seats.filter(player__user_name="Phil I")
-        self.assertEqual(s[0].holeCardsString(), "QQ")
-
-        s = seats.filter(player__user_name="Daniel N")
-        self.assertEqual(s[0].winnings, 10064)
-        self.assertEqual(s[0].potContributions(), 5282)
-        self.assertEqual(s[0].profit(), 4782)    
-    
+        s = seats.get(player__user_name="Phil I")
+        self.assertEqual(s.holeCardsString(), "QQ")
+            

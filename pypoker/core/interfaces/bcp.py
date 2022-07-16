@@ -1,6 +1,5 @@
 import core.models as models
-import datetime
-from . import network
+from . import network, parser
 
 FORCE_CREATE = False
 
@@ -21,49 +20,45 @@ def loadRecentHandsToDb(username, password):
         "earliestHandTime": "", # call lastest/earliest to avoid confusion, since later hands loaded first
         "latestHandTime": ""} # result of import to feed to front-end
     
-    socket = network.BcpSocketInterface()
-    
     try:
-        (authSuccess, authResponse) = socket.authenticate(username, password)
-        if authSuccess:
-            storeHero(authResponse)
+        with network.BcpSocketInterface() as socket:
+            (authSuccess, authResponse) = socket.authenticate(username, password)
+            if authSuccess:
+                storeHero(authResponse)
 
-            handHistory = socket.getHandHistory()
-            for hh in handHistory:
-                # hand history is reverse chronological
-                # so once we find one that exists, the loop can break
-                t = models.Table.objects.get_or_create(
-                    name=hh["tableName"])
+                handHistory = socket.getHandHistory()
+                for hh in handHistory:
+                    # hand history is reverse chronological
+                    # so once we find one that exists, the loop can break
+                    t = models.Table.objects.get_or_create(
+                        name=hh["tableName"])
 
-                h = models.Hand.objects.get_or_create(site_key=hh["key"],
-                    table=t[0],
-                    time_stamp=convertBcpTime(hh["timestamp"]))
+                    h = models.Hand.objects.get_or_create(site_key=hh["key"],
+                        table=t[0],
+                        time_stamp=parser.convertBcpTime(hh["timestamp"]))
 
-                if h[1] or FORCE_CREATE:
-                    # this means a new hand has been created               
-                    hand = socket.getHand(hh["key"])
-                    # if there's a problem, hand's json contains an "error" field
-                    if "error" in hand:
-                        continue
-                    storeHand(hand)
-                    result["newHands"] += 1
-                    if result["newHands"] == 1:
-                        result["latestHandTime"] = hh["timestamp"]
-                    result["earliestHandTime"] = hh["timestamp"]
-                else:
-                    break # an existing hand has been found, assume all earlier hands also exist
-        else:
-            result["error"] = True
-            result["errorText"] = "Authentication failed."
+                    if h[1] or FORCE_CREATE:
+                        # this means a new hand has been created               
+                        hand = socket.getHand(hh["key"])
+                        # if there's a problem, hand's json contains an "error" field
+                        if "error" in hand:
+                            continue
+                        storeHand(hand)
+                        result["newHands"] += 1
+                        if result["newHands"] == 1:
+                            result["latestHandTime"] = hh["timestamp"]
+                        result["earliestHandTime"] = hh["timestamp"]
+                    else:
+                        break # an existing hand has been found, assume all earlier hands also exist
+            else:
+                result["error"] = True
+                result["errorText"] = "Authentication failed."
                             
     except Exception as e:
         print(e)
-        socket.tearDown()
         result["error"] = True
         result["errorText"] = str(e)
-        return result
-
-    socket.tearDown()
+    
     return result
 
 def storeHero(authResponse: dict):
@@ -102,7 +97,7 @@ def storeHand(hand: dict):
             is_winner=seat["placing"]==1,
             is_big_blind=seat["isBigBlind"],
             is_small_blind=seat["isSmallBlind"],
-            starting_stack=getStartingStack(seat),
+            starting_stack=parser.getStartingStack(seat),
             winnings=seat["winnings"]
         )
         # Note: seat["stack"] is at END of hand
@@ -113,7 +108,8 @@ def storeHand(hand: dict):
         s.save()
 
     # store actions
-    actions = getActionsByRound(hand["seats"], hand["rounds"])
+    actions = parser.getActionsByRound(hand["seats"], hand["rounds"])
+    actions = parser.correctActionAmounts(actions) # refactoring to come
     # list of dicts, augmented version of bcp actions
     for (n,a) in enumerate(actions):
         if a["type"] == "POST_BLIND":
@@ -131,66 +127,11 @@ def storeHand(hand: dict):
             number=n+1)
 
     # store player positions
-    for (player,pos) in getPlayerPositions(actions).items():
+    for (player,pos) in parser.getPlayerPositions(actions).items():
         models.Seat.objects.filter(
             hand=h,
             player__user_name=player).update(
             position=pos)
-
-# stack in BCP response appears to be after pot contributions but before winnings
-def getStartingStack(seat):
-    return sum([a["amount"] for a in seat["actions"] if a["amount"] is not None], seat["stack"])
-
-def convertBcpTime(timeStr):
-    return datetime.datetime.strptime(
-        timeStr,
-        "%Y-%m-%dT%H:%M:%S.%fZ"
-    )    
-
-def getPlayerPositions(actions):
-    # returns dict: player: position
-    # to get player positions: iterate over actions pre-flop actions sorted by time
-    # UTG is defined as position 1, so blinds shall not precede other pre-flop betting
-    # big-blind is forcibly appended to list of actions, so it's not missed if every player folds to the BB
-    # (in this case, BB wins without an action, other than their POST_BLIND)
-    preflop = list(filter(lambda a: a["round"] == "PREFLOP" and a["type"] != "POST_BLIND", actions))
-    blinds = list(filter(lambda a: a["type"] == "POST_BLIND", actions))
-    bigBlind = max(blinds, key=lambda a: a["amount"])
-    preflop.append(bigBlind)
-
-    out = {}
-    for (p,a) in enumerate(preflop):
-        if a["player"] in out:
-            # already seen player, therefore second action
-            break     
-        else:
-            out[a["player"]] = p + 1
-    return out
-
-def getActionsByRound(seats, rounds):
-    out = []
-    for a in getSortedActions(seats):
-        # find out which round we're in
-        while len(rounds) > 1 and a["time"] > rounds[1]["time"]:
-            # if the above is true, pop the first round off the list
-            rounds = rounds[1:]
-        a["round"] = rounds[0]["round"] # name
-        out.append(a)
-    return out
-
-def getSortedActions(seats):
-    return sorted(getAllActions(seats), 
-        key=lambda x: x["time"])
-
-def getAllActions(seats):
-    out = []
-    for s in seats:
-        for a in s["actions"]:
-            if a["amount"] is None:
-                a["amount"] = 0 # make not null
-            a["player"] = s["name"]
-            out.append(a)
-    return out
 
 def getHoleCards(seat_data):
     # PROBLEM: when hero folds, their hole cards aren't revealed by getHistory...
@@ -203,4 +144,4 @@ def cardModelFromJson(card_data):
     # first character is used to map to Suit enum
     return models.PlayingCard.objects.get(
         suit=card_data["suit"][0],
-        rank=card_data["rank"])
+        rank=card_data["rank"]) 

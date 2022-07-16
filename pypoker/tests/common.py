@@ -3,23 +3,31 @@ import core.models as models
 import itertools
 import datetime
 from core.interfaces import bcp
+import os
 
-TEST_FILES = {
-    "baseline": "hand_baseline.json",
-    "big_blind_steal": "hand_bb_steal.json"
-}
+HANDS_FOLDER = "tests/hands/"
 
-def getHandJson(key):
-    with open("tests/" + TEST_FILES[key]) as f:
+def getHandJson(fileName):
+    with open(HANDS_FOLDER + fileName + ".json") as f:
         data = json.load(f)
     return data
+
+def getHandObject(fileName):
+    return models.Hand.objects.annotated().get(site_key=getHandJson(fileName)["key"])
+
+def testFileNames():
+    for f in os.listdir(HANDS_FOLDER):
+        if not os.path.isfile(HANDS_FOLDER + f): continue
+        fp = f.split(".")
+        if fp[1] != "json": continue
+        yield fp[0]
 
 def storeTestHandsToDb():
     models.Table.objects.all().delete()
     models.Hand.objects.all().delete()
-
-    for k in TEST_FILES.keys():
-        data = getHandJson(k)
+    
+    for f in testFileNames():
+        data = getHandJson(f)
         t = models.Table.objects.create(name=data["name"])
         models.Hand.objects.create(
             site_key=data["key"],

@@ -1,6 +1,5 @@
 from django.db import models
-from django.db.models import Q
-from django.db.models import Sum
+from django.db.models import Q, F, Sum, Count, ExpressionWrapper
 
 class Player(models.Model):
     account_number = models.IntegerField(default=0)
@@ -33,12 +32,16 @@ class Hand(models.Model):
     flop_cards = models.ManyToManyField(PlayingCard)
     turn_card = models.ForeignKey(PlayingCard, on_delete=models.DO_NOTHING, related_name="turn_cards", null=True)
     river_card = models.ForeignKey(PlayingCard, on_delete=models.DO_NOTHING, related_name="river_cards", null=True)
-
-    def playerCount(self):
-        return len(self.seat_set.all())
+    
+    class HandManager(models.Manager):
+        def annotated(self):
+            return self.annotate(
+                player_count=Count('seat'),
+            )
+    objects = HandManager()
 
     def isAnyPlayerAllIn(self):
-        return any(s.isAllIn() for s in self.seat_set.all())
+        return self.seat_set.annotated().filter(is_all_in=True).count() > 0
 
 # a "hand" in the sense of two cards dealt to a player
 class Seat(models.Model):
@@ -58,36 +61,27 @@ class Seat(models.Model):
     # 1 = under the gun
     # N = big blind
 
-    def potContributions(self):
-        return self.action_set.aggregate(Sum('amount'))["amount__sum"]
-
-    def profit(self):
-        return self.winnings - self.potContributions()
-
-    # so far haven't related all-in to an action
-    # only to a seat
-    def isAllIn(self):
-        return self.potContributions() == self.starting_stack
-
-    def allInRound(self):
-        # round in which player went all-in
-        if self.isAllIn():
-            # if all-in, that bet will be the last action in the hand for this seat
-            return self.action_set.order_by('-number')[0].round
-        return ""
+    class SeatManager(models.Manager):
+        def annotated(self):
+            return self.annotate(
+                pot_contributions=Sum('action__amount'),
+                profit=F('winnings')-F('pot_contributions'),
+                profit_bb=ExpressionWrapper(
+                    F('profit')*1.0/F('hand__big_blind'), # 1.0 avoids rounding in DB
+                    output_field=models.FloatField()),
+                is_all_in=ExpressionWrapper(
+                    Q(pot_contributions=F('starting_stack')),
+                    output_field=models.BooleanField()),
+            )
+    objects = SeatManager() # manager
 
     def getMetric(self, metric):
         return self.metrics.get(type=metric)
         
-    def isVPIP(self):
-        return self.action_set.filter(
-            round=Action.Round.PREFLOP).filter(
-                Q(type=Action.Type.CALL) | Q(type=Action.Type.RAISE)).count() > 0
-    
     def preflopBettorsAfter(self):
         # different convention of position
         # big blind = 0, UTG = N-1
-        return self.hand.playerCount() - self.position
+        return self.hand.seat_set.count() - self.position
 
     def vpipActionsBefore(self):
         # returns number of pre-flop calls or voluntary bets (not blinds)

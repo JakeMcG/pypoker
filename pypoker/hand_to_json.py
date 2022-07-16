@@ -1,3 +1,4 @@
+import sys
 from getpass import getpass
 from core.interfaces import network 
 import json
@@ -5,12 +6,11 @@ import json
 # utility script to pull an arbitrary hand from blockchain.poker to a json file
 # usage: util.py hand KEY
 def handToJsonFile(handKey):
-
+    print(handKey)
     u = input("Username: ")
     p = getpass()
 
-    try:
-        socket = network.BcpSocketInterface()
+    with network.BcpSocketInterface() as socket:
         if socket.authenticate(u, p):
             hand = socket.getHand(handKey)
 
@@ -18,6 +18,6 @@ def handToJsonFile(handKey):
                 file.write(json.dumps(hand))
         else:
             print("Authentication failed.")
-    except:
-        print("Something went wrong.")
-        
+
+if __name__ == "__main__":
+    handToJsonFile(sys.argv[1])

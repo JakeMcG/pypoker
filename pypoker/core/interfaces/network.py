@@ -14,6 +14,12 @@ class BcpSocketInterface:
                 headers=h)
         self.requestHandler = SocketEventResponseHandler(self.sio)
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.sio.disconnect()
+
     def authenticate(self, username, password):
         authData = {"user": username, 
             "password": password,
@@ -26,9 +32,6 @@ class BcpSocketInterface:
 
     def getHand(self, key):
         return self.requestHandler.emitForResponse("getHistory", {"hand": key})
-
-    def tearDown(self):
-        self.sio.disconnect()
 
 # this class specifically handles the mechanics of the socket emit & response
 class SocketEventResponseHandler:
