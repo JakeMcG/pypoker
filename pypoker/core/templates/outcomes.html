@@ -1,0 +1,42 @@
+{% extends "filterable.html" %}
+{% load static %}
+
+{% block head %}
+<script type="text/javascript" src="{% static 'js/outcomes.js' %}"></script>
+{% endblock head %}
+
+{% block top_content %}
+<h1>Action Outcomes</h1>
+{% endblock top_content %}
+
+{% block extra_filters %}
+<table>
+    <thead>
+        {% for k in metrics.keys %}
+            <th>{{k}}</th>
+        {% endfor %}
+    </thead>
+    <tbody>
+        <tr>
+            {% for k,v in metrics.items %}
+            <td>
+                <ul style="list-style-type:none;">
+                    {% for k,v in v.items %}
+                    <li>
+                        <label for="{{k}}"> <!--data-toggle="tooltip" data-placement="left" title="{{v}}"-->
+                            {{v}}
+                        </label>
+                        <input type="checkbox" name="{{k}}"> <!-- data-toggle="tooltip" data-placement="left" title="{{v}}"-->
+                    </li>
+                    {% endfor %}
+                </ul>
+            </td>
+            {% endfor %}
+        </tr>
+    </tbody>
+</table>
+{% endblock extra_filters %}
+
+{% block display %}
+<div id="outcomes-result"></div>
+{% endblock display %}

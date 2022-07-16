@@ -5,9 +5,9 @@ from core.analysis import seat_metrics
 
 Type = models.BinarySeatMetric.Metric
 
-def getMetric(handKey, userName, metric):
+def getMetric(hand, userName, metric):
     return models.BinarySeatMetric.objects.get(
-        seat__hand__site_key=common.getHandJson(handKey)["key"],
+        seat__hand__site_key=common.getHandJson(hand)["key"],
         seat__player__user_name=userName,
         type=metric
     )
@@ -22,41 +22,41 @@ class SeatMetricTests(TestCase):
             seat_metrics.update_metrics(s)
 
     def testVPIP(self):
-        vpip = getMetric("baseline", "Phil H", Type.VPIP)
+        vpip = getMetric("oabw2ys48s", "Phil H", Type.VPIP)
         self.assertEqual(vpip.value, True)
         self.assertEqual(vpip.eligibility, True)
 
-        vpip = getMetric("baseline", "Tony G", Type.VPIP)
+        vpip = getMetric("oabw2ys48s", "Tony G", Type.VPIP)
         self.assertEqual(vpip.value, False)
         self.assertEqual(vpip.eligibility, True)
 
-        vpip = getMetric("big_blind_steal", "Phil H", Type.VPIP)
+        vpip = getMetric("fob3lviaoh", "Phil H", Type.VPIP)
         self.assertEqual(vpip.value, False)
         self.assertEqual(vpip.eligibility, False)
 
     def testPFR(self):
-        pfr = getMetric("baseline", "Tony G", Type.PREFLOP_RAISE)
+        pfr = getMetric("oabw2ys48s", "Tony G", Type.PREFLOP_RAISE)
         self.assertEqual(pfr.value, False)
         self.assertEqual(pfr.eligibility, True)
     
-        pfr = getMetric("baseline", "Doyle B", Type.PREFLOP_RAISE)
+        pfr = getMetric("oabw2ys48s", "Doyle B", Type.PREFLOP_RAISE)
         self.assertEqual(pfr.value, True)
         self.assertEqual(pfr.eligibility, True)
 
-        pfr = getMetric("baseline", "Phil I", Type.PREFLOP_RAISE)
+        pfr = getMetric("oabw2ys48s", "Phil I", Type.PREFLOP_RAISE)
         self.assertEqual(pfr.value, True)
         self.assertEqual(pfr.eligibility, True)
 
     def test3Bet(self):
-        bet3 = getMetric("baseline", "Tony G", Type.PREFLOP_3BET)
+        bet3 = getMetric("oabw2ys48s", "Tony G", Type.PREFLOP_3BET)
         self.assertEqual(bet3.value, False)
         self.assertEqual(bet3.eligibility, False)
     
-        bet3 = getMetric("baseline", "Doyle B", Type.PREFLOP_3BET)
+        bet3 = getMetric("oabw2ys48s", "Doyle B", Type.PREFLOP_3BET)
         self.assertEqual(bet3.value, False)
         self.assertEqual(bet3.eligibility, False)
 
-        bet3 = getMetric("baseline", "Phil I", Type.PREFLOP_3BET)
+        bet3 = getMetric("oabw2ys48s", "Phil I", Type.PREFLOP_3BET)
         self.assertEqual(bet3.value, True)
         self.assertEqual(bet3.eligibility, True)
     

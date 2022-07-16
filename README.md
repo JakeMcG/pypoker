@@ -14,6 +14,7 @@ PyPoker's database and analytics are designed to support generic Hold 'Em hands,
   - [Importing Hands](#importing-hands)
   - [Analytics](#analytics)
     - [Pre-Flop](#pre-flop)
+    - [Outcomes](#outcomes)
 - [Developer Guide](#developer-guide)
   - [Initial Setup](#initial-setup)
 - [Want to Contribute?](#want-to-contribute)
@@ -35,6 +36,11 @@ The *pre-flop statistics* tab lets you analyze your VPIP (voluntarily puts money
 ![Screen-recorded gif](docs/preflop.gif)
 
 A player *voluntarily puts money in pot* whenever they make a pre-flop bet besides posting a blind. When any player except the big blind calls or raises pre-flop, they have voluntarily put money in. The big blind voluntarily puts money in if they raise, or if they call a bet larger than the big blind.
+
+### Outcomes
+The *outcomes* tab lets you analyze the average outcome (winningness and profitability) of different actions taken on different streets. For example, the profitability of 3-betting pre-flop. Outcomes can be AND'd together by checking more than one box, for example, to analyze the profitability of 3-betting pre-flop *and then* continuation betting after the flop.
+
+![Screen-recorded gif](docs/outcomes.gif)
 
 # Developer Guide
 Prerequisites:
